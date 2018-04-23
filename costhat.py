@@ -73,15 +73,16 @@ class CosthatModel:
         return model
 
     def calculate_costs(self, inward_workload):
-        print "#######"
+        print ("#######")
         total_wl = self._calculate_total_workload(inward_workload)
-        print "Total workload:"
+        print ("Total workload:")
         self._print_workload(total_wl)
-        print "#######"
+        print ("#######")
         sum = 0.0
         for s in self.services:
             sum += s.calculate_service_costs(total_wl[s])
-        print "Sum of all costs: %.2f" % sum
+        #print ("Sum of all costs: %.2f") % sum
+        print ("Sum of all costs: DAVE HACK")
         return sum
 
     def find_by_name(self, service, endpoint):
@@ -93,10 +94,11 @@ class CosthatModel:
         return None
 
     def _print_workload(self, wl):
-        print 'Requests:'
+        print ("Requests:")
         for s in wl:
             for e in s.eps:
-                print "%s/%s: %d" % (s.name, e.name, wl[s][e])
+                print ("DAVE HACK")
+                #print ("%s/%s: %d") % (s.name, e.name, wl[s][e])
 
     def _calculate_total_workload(self, inward_workload):
         total_wl = self._empty_wl()
@@ -154,7 +156,8 @@ class LambdaService(Service):
         for ep in self.eps:
             if workload[ep] > 0:
                 total_costs += ep.calculate_endpoint_costs(workload[ep])
-        print "Costs of service %s: %.2f" % (self.name, total_costs)
+        #print ("Costs of service %s: %.2f") % (self.name, total_costs)
+        print ("DAVE HACK 2")
         return total_costs
 
     def configure_service(self, configuration):
@@ -183,7 +186,8 @@ class InstanceService(Service):
                 non_compute_costs += ep.calculate_endpoint_costs(workload[ep])
         compute_costs = self._calculate_compute_costs(workload)
         total_costs = compute_costs + non_compute_costs
-        print "Costs of service %s: %.2f (%.2f compute, %.2f other)" % (self.name, total_costs, compute_costs, non_compute_costs)
+        #print ("Costs of service %s: %.2f (%.2f compute, %.2f other)") % (self.name, total_costs, compute_costs, non_compute_costs)
+        print ("DAVE HACK 3")
         return total_costs
 
     def configure_service(self, configuration):
