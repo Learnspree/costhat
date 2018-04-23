@@ -82,7 +82,7 @@ class CosthatModel:
         for s in self.services:
             sum += s.calculate_service_costs(total_wl[s])
         #print ("Sum of all costs: %.2f") % sum
-        print ("Sum of all costs: DAVE HACK")
+        print ("Sum of all costs: {0:.2f}".format(sum))
         return sum
 
     def find_by_name(self, service, endpoint):
@@ -97,8 +97,8 @@ class CosthatModel:
         print ("Requests:")
         for s in wl:
             for e in s.eps:
-                print ("DAVE HACK")
                 #print ("%s/%s: %d") % (s.name, e.name, wl[s][e])
+                print ("{0}/{1}: {2:f}".format(s.name, e.name, wl[s][e]))
 
     def _calculate_total_workload(self, inward_workload):
         total_wl = self._empty_wl()
@@ -157,7 +157,7 @@ class LambdaService(Service):
             if workload[ep] > 0:
                 total_costs += ep.calculate_endpoint_costs(workload[ep])
         #print ("Costs of service %s: %.2f") % (self.name, total_costs)
-        print ("DAVE HACK 2")
+        print ("Costs of service {0}: {1:.2f}".format(self.name, total_costs))
         return total_costs
 
     def configure_service(self, configuration):
@@ -186,8 +186,7 @@ class InstanceService(Service):
                 non_compute_costs += ep.calculate_endpoint_costs(workload[ep])
         compute_costs = self._calculate_compute_costs(workload)
         total_costs = compute_costs + non_compute_costs
-        #print ("Costs of service %s: %.2f (%.2f compute, %.2f other)") % (self.name, total_costs, compute_costs, non_compute_costs)
-        print ("DAVE HACK 3")
+        print ("Costs of service {0}: {1:.2f} ({2:.2f} compute, {3:.2f} other)".format(self.name, total_costs, compute_costs, non_compute_costs))
         return total_costs
 
     def configure_service(self, configuration):
