@@ -59,5 +59,4 @@ def test_aws_spf_coldstart():
 
 ''' Start main test script! '''
 
-# test_basic_lambda_service()
 test_aws_spf_coldstart()
