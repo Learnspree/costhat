@@ -44,10 +44,10 @@ def test_aws_spf_coldstart():
     model = CosthatModel([test_netcore_service, aws_logger_service, common_metrics_service, common_cost_metrics_service])
 
     # test cold start 1000000 (1 million) calls
-    coldstart1m = {test_netcore_service : { test_netcore : 1000000 }}
+    coldstart1m = {test_netcore_service : { test_netcore : 1 }}
     costs = truncate(model.calculate_costs(coldstart1m))
-    expected = 56170000
-    print("Hoping for %d, and received %d" % (expected, costs))
+    expected = 56.17
+    print("Hoping for %f, and received %f" % (expected, costs))
     assert costs == expected
     
 ''' Start main test script '''
