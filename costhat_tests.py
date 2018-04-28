@@ -42,19 +42,19 @@ def test_aws_spf_coldstart():
 
     model = CosthatModel([test_netcore_service, aws_logger_service, common_metrics_service, common_cost_metrics_service])
 
-    # test cold start 100 calls
-    coldstart100 = {test_netcore_service : { test_netcore : 100 }}
-    costs = truncate(model.calculate_costs(coldstart100))
-    expected = 5617
-    print("Hoping for %d, and received %d" % (expected, costs))
-    assert costs == expected
-
-    # # test cold start 1000000 (1 million) calls
-    # coldstart1m = {test_netcore : { test_netcore_service : 1000000 }}
-    # costs = truncate(model.calculate_costs(coldstart1m))
-    # expected = 100
+    # # test cold start 100 calls
+    # coldstart100 = {test_netcore_service : { test_netcore : 100 }}
+    # costs = truncate(model.calculate_costs(coldstart100))
+    # expected = 5617
     # print("Hoping for %d, and received %d" % (expected, costs))
     # assert costs == expected
+
+    # test cold start 1000000 (1 million) calls
+    coldstart1m = {test_netcore_service : { test_netcore : 1000000 }}
+    costs = truncate(model.calculate_costs(coldstart1m))
+    expected = 56170000
+    print("Hoping for %d, and received %d" % (expected, costs))
+    assert costs == expected
     
 
 def test_basic_lambda_service():
