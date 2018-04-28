@@ -12,17 +12,17 @@ def test_aws_spf_coldstart():
 
     aws-logger = LambdaEndpoint('aws-logger')
     aws-logger-service = LambdaService('aws-logger-service', [aws-logger])
-    aws-logger-costs = {'capi' : 0, 'cio' : 0, 'ccmp' : XXX, "coth" : 0}
+    aws-logger-costs = {'capi' : 0, 'cio' : 0, 'ccmp' : 22.7, "coth" : 0}
     aws-logger.configure_endpoint(aws-logger-costs)
 
     common-metrics = LambdaEndpoint('common-metrics')
     common-metrics-service = LambdaService('common-metrics-service', [common-metrics])
-    common-metrics-costs = {'capi' : XXX, 'cio' : XXX, 'ccmp' : XXX, "coth" : 0}
+    common-metrics-costs = {'capi' : XXX, 'cio' : XXX, 'ccmp' : 20.83, "coth" : 0}
     common-metrics.configure_endpoint(common-metrics-costs)
     
     common-cost-metrics = LambdaEndpoint('common-cost-metrics')
     common-cost-metrics-service = LambdaService('common-cost-metrics-service', [common-cost-metrics])
-    common-cost-metrics-costs = {'capi' : 0, 'cio' : XXX, 'ccmp' : XXX, "coth" : 0}
+    common-cost-metrics-costs = {'capi' : 0, 'cio' : XXX, 'ccmp' : 2.49, "coth" : 0}
     common-cost-metrics.configure_endpoint(common-cost-metrics-costs)
 
     test-netcore_cg = [(aws-logger-service, aws-logger, 1)]
