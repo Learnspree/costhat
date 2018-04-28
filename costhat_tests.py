@@ -3,6 +3,7 @@ from costhat import *
 def truncate(f):
     return float('%.3f'%(f))
 
+# Overall costs listed based on "per million requests"
 def test_aws_spf_coldstart():
 
     test-netcore = LambdaEndpoint('test-netcore')
@@ -15,14 +16,19 @@ def test_aws_spf_coldstart():
     aws-logger-costs = {'capi' : 0, 'cio' : 0, 'ccmp' : 22.7, "coth" : 0}
     aws-logger.configure_endpoint(aws-logger-costs)
 
+    # API Calls $3.50 per million requests + data transfer out ($0.09/GB for first 10TB)
+    # Traffic is within 1GB - so $0.09 total for transfer and $3.50 for the API calls
     common-metrics = LambdaEndpoint('common-metrics')
     common-metrics-service = LambdaService('common-metrics-service', [common-metrics])
-    common-metrics-costs = {'capi' : XXX, 'cio' : XXX, 'ccmp' : 20.83, "coth" : 0}
+    common-metrics-costs = {'capi' : 3.59, 'cio' : 0.47, 'ccmp' : 20.83, "coth" : 0}
     common-metrics.configure_endpoint(common-metrics-costs)
     
+   # IO costs based on DynamoDB cost @ $0.47 per month for 1 WCU - enough for 1 write per second or 2.5m per month
+    # This is the minimum and is enough to cover the 1 million requests being priced
+    # https://aws.amazon.com/dynamodb/pricing/    
     common-cost-metrics = LambdaEndpoint('common-cost-metrics')
     common-cost-metrics-service = LambdaService('common-cost-metrics-service', [common-cost-metrics])
-    common-cost-metrics-costs = {'capi' : 0, 'cio' : XXX, 'ccmp' : 2.49, "coth" : 0}
+    common-cost-metrics-costs = {'capi' : 0, 'cio' : 0.47, 'ccmp' : 2.49, "coth" : 0}
     common-cost-metrics.configure_endpoint(common-cost-metrics-costs)
 
     test-netcore_cg = [(aws-logger-service, aws-logger, 1)]
@@ -39,7 +45,14 @@ def test_aws_spf_coldstart():
     # test cold start 100 calls
     coldstart100 = {test-netcore : { test-netcore-service : 100 }}
     costs = truncate(model.calculate_costs(coldstart100))
-    expected = XXX
+    expected = 100
+    print("Hoping for %d, and received %d" % (expected, costs))
+    assert costs == expected
+
+    # test cold start 1000000 (1 million) calls
+    coldstart1m = {test-netcore : { test-netcore-service : 1000000 }}
+    costs = truncate(model.calculate_costs(coldstart1m))
+    expected = 100
     print("Hoping for %d, and received %d" % (expected, costs))
     assert costs == expected
     
