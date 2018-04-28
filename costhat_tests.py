@@ -1,5 +1,6 @@
 from costhat import *
 
+''' Functions used in test script '''
 def truncate(f):
     return float('%.3f'%(f))
 
@@ -42,13 +43,6 @@ def test_aws_spf_coldstart():
 
     model = CosthatModel([test_netcore_service, aws_logger_service, common_metrics_service, common_cost_metrics_service])
 
-    # # test cold start 100 calls
-    # coldstart100 = {test_netcore_service : { test_netcore : 100 }}
-    # costs = truncate(model.calculate_costs(coldstart100))
-    # expected = 5617
-    # print("Hoping for %d, and received %d" % (expected, costs))
-    # assert costs == expected
-
     # test cold start 1000000 (1 million) calls
     coldstart1m = {test_netcore_service : { test_netcore : 1000000 }}
     costs = truncate(model.calculate_costs(coldstart1m))
@@ -56,7 +50,5 @@ def test_aws_spf_coldstart():
     print("Hoping for %d, and received %d" % (expected, costs))
     assert costs == expected
     
-
-''' Start main test script! '''
-
+''' Start main test script '''
 test_aws_spf_coldstart()
