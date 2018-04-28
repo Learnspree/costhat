@@ -45,7 +45,7 @@ def test_aws_spf_coldstart():
 
 
     # test cold start 100 calls
-    coldstart100 = {test_netcore : { test_netcore_service : 100 }}
+    coldstart100 = {test_netcore_service : { test_netcore : 100 }}
     costs = truncate(model.calculate_costs(coldstart100))
     expected = 2832
     print("Hoping for %d, and received %d" % (expected, costs))
